@@ -1,0 +1,19 @@
+name:                extdatetime
+version:             0.1
+stability:           experimental
+Description:
+  Extended Date/Time specification in Haskell. Incomplete and 
+  full of bugs, because I have never programmed in Haskell before
+license-file:        LICENSE
+author:              Jakob Voss <jakob.voss@gbv.de>
+maintainer:          jakob.voss@gbv.de
+homepage:            http://github.com/nichtich/extdatetime
+category:            Data
+synopsis:            Extended Data/Time 
+cabal-version:       >= 1.2
+build-type:          Simple
+
+library
+  build-depends:     base >= 2 && < 5
+  exposed-modules:   Data.DateTime.Extended
+  hs-source-dirs:    src
