@@ -3,3 +3,4 @@
 
 # distribution files
 dist/
+*.tar.gz

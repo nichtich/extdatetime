@@ -1,14 +1,31 @@
 > module Data.DateTime.Extended where
 
+Printf is used to print values with given precision.
+
 > import Text.Printf
 
-This is just an incomplete draft to clarify concepts found in
-ISO 8601 (see http://xml.coverpages.org/ISO-FDIS-8601.pdf) and
-extended datetime concepts as proposed at
-http://www.loc.gov/standards/datetime/
+You should also have a look at the existing Time library:
+http://semantic.org/TimeLib/
+
+Data.DateTime provides some helpful methods to handle
+Data.Time values. We may need this later. 
+
+import Data.DateTime
+
+ISO 8601 is based on four basic concepts: time-points,
+time-intervals, recurring time-intervals, and durations.
+The concepts build on each other and/or on time-units
+by defined rules. The full specification can be found at
+http://xml.coverpages.org/ISO-FDIS-8601.pdf
+
+Extended Date/Times propose extensions to ISO 8601, such 
+as intervals (already in ISO 8601 but not included in many
+implementations), approximate dates, questionable dates,
+sets of dates and choices of dates.
 
 
-Time units. We simply start with Integers, more precise later
+Time units. We simply start with dates only and Integer
+values (this should be made more precise later).
 
 > type Second = Integer
 > type Minute = Integer
@@ -46,12 +63,6 @@ time points can be compared
 > -- TODO: implement mixed cases
 
 
-> before :: TimePoint -> TimePoint -> Bool
-> before (Y y1) (Y y2) = y1 < y2
-> before (YM y1 m1) (Y y2) = y1 < y2
-> before (YMD y1 m1 d1) (Y y2) = y1 < y2
-> before (YM y1 m1) (YM y2 m2) = y1 < y2 || (y1 == y2 && m1 < m2)
-
 > data Duration =
 >     PY Year
 >   | PYM Year Month
@@ -78,7 +89,6 @@ There are four types of time-intervals.
 >       show (FromFor s d) = "from " ++ show s ++ " for " ++ show d
 >       show (DuringUntil d e) = show d ++ " until " ++ show e
 
-Check whether a given TimePoint is during an interval
 
 > elapse :: TimePoint -> Duration -> TimePoint
 > elapse (Y y) (PY py) = Y (y + py)
@@ -87,6 +97,7 @@ Check whether a given TimePoint is during an interval
 > elapse (YM y m) (PYM py pm) = YM (y + py) (m + pm) -- TODO: flip years if m+pm > 12
 > -- more combinations, probably to be defined in a better way
 
+Check whether a given TimePoint is during an interval
 
 > during :: TimePoint -> TimeInterval -> Bool
 > during a (During d) = undefined -- time point during a floating duration
